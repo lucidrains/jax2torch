@@ -43,8 +43,9 @@ def jax2torch(fn):
                     grad_args = tree_t2j(grad_args)
                 else:
                     grad_args = t2j(grad_args[0])
-                grads, *_ = ctx.fun_vjp(grad_args)
-                ret = tree_j2t(grads), *((None,) * (ctx.num_args - 1))
+                grads = ctx.fun_vjp(grad_args)
+                grads = tuple(map(lambda t: t if isinstance(t, jnp.ndarray) else None, grads))
+                ret = tree_j2t(grads)
                 return ret
 
         sig = signature(fn)
