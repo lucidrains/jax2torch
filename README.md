@@ -20,7 +20,7 @@ from jax2torch import jax2torch
 # Jax function
 
 @jax.jit
-def jax_pow(x, y=2):
+def jax_pow(x, y = 2):
   return x ** y
 
 # convert to Torch function
@@ -30,13 +30,13 @@ torch_pow = jax2torch(jax_pow)
 # run it on Torch data!
 
 x = torch.tensor([1., 2., 3.])
-y = torch_pow(x, 3)
+y = torch_pow(x, y = 3)
 print(y)  # tensor([1., 8., 27.])
 
 # And differentiate!
 
-x = torch.tensor([2., 3.], requires_grad=True)
-y = torch.sum(torch_pow(x, 3))
+x = torch.tensor([2., 3.], requires_grad = True)
+y = torch.sum(torch_pow(x, y = 3))
 y.backward()
 print(x.grad) # tensor([12., 27.])
 ```
