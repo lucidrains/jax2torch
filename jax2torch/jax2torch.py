@@ -1,18 +1,18 @@
 # https://gist.github.com/mattjj/e8b51074fed081d765d2f3ff90edf0e9
 
-import torch
+from jax import dlpack as jax_dlpack
+from torch.utils import dlpack as torch_dlpack
 
-import jax
 import jax.numpy as jnp
 from jax.tree_util import tree_map
 
 def j2t(x_jax):
-  x_torch = torch.utils.dlpack.from_dlpack(jax.dlpack.to_dlpack(x_jax))
+  x_torch = torch_dlpack.from_dlpack(jax_dlpack.to_dlpack(x_jax))
   return x_torch
 
 def t2j(x_torch):
   x_torch = x_torch.contiguous()
-  x_jax = jax.dlpack.from_dlpack(torch.utils.dlpack.to_dlpack(x_torch))
+  x_jax = jax_dlpack.from_dlpack(torch_dlpack.to_dlpack(x_torch))
   return x_jax
 
 def tree_t2j(x_torch):
