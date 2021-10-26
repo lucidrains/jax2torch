@@ -10,6 +10,8 @@ $ pip install jax2torch
 
 ## Usage
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1GBEEnpuCvLS1bhb_xGCO5Y40rFiQrh6G?usp=sharing) Quick test
+
 ```python
 import jax
 import torch

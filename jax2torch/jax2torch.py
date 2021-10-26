@@ -1,5 +1,7 @@
 # https://gist.github.com/mattjj/e8b51074fed081d765d2f3ff90edf0e9
 
+import torch
+import jax
 from jax import dlpack as jax_dlpack
 from torch.utils import dlpack as torch_dlpack
 
