@@ -38,8 +38,12 @@ def jax2torch(fn):
                 return tree_j2t(y_)
 
             @staticmethod
-            def backward(ctx, grad_y):
-                grads, *_ = ctx.fun_vjp(t2j(grad_y))
+            def backward(ctx, *grad_args):
+                if len(grad_args) > 1:
+                    grad_args = tree_t2j(grad_args)
+                else:
+                    grad_args = t2j(grad_args[0])
+                grads, *_ = ctx.fun_vjp(grad_args)
                 ret = tree_j2t(grads), *((None,) * (ctx.num_args - 1))
                 return ret
 
