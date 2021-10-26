@@ -13,24 +13,28 @@ $ pip install jax2torch
 ```python
 import jax
 import torch
-import jax2torch
+from jax2torch import jax2torch
+
+# Jax function
 
 @jax.jit
-def jax_square(x):
-  return x ** 2
+def jax_pow(x, y=2):
+  return x ** y
 
-torch_square = jax2torch(jax_square)
+# convert to Torch function
 
-# Run it on Torch data!
+torch_pow = jax2torch(jax_pow)
+
+# run it on Torch data!
 
 x = torch.tensor([1., 2., 3.])
-y = torch_square(x)
-print(y)  # tensor([1., 4., 9.])
+y = torch_pow(x, 3)
+print(y)  # tensor([1., 8., 27.])
 
 # And differentiate!
 
 x = torch.tensor([2., 3.], requires_grad=True)
-y = torch.sum(torch_square(x))
+y = torch.sum(torch_pow(x, 3))
 y.backward()
-print(x.grad) # tensor([4., 9.])
+print(x.grad) # tensor([12., 27.])
 ```
