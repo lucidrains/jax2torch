@@ -32,21 +32,16 @@ def jax2torch(fn):
         class JaxFun(torch.autograd.Function):
             @staticmethod
             def forward(ctx, *args):
-                ctx.num_args = len(args)
                 args = tree_t2j(args)
                 y_, ctx.fun_vjp = jax.vjp(fn, *args)
                 return tree_j2t(y_)
 
             @staticmethod
             def backward(ctx, *grad_args):
-                if len(grad_args) > 1:
-                    grad_args = tree_t2j(grad_args)
-                else:
-                    grad_args = t2j(grad_args[0])
+                grad_args = tree_t2j(grad_args) if len(grad_args) > 1 else t2j(grad_args[0])
                 grads = ctx.fun_vjp(grad_args)
                 grads = tuple(map(lambda t: t if isinstance(t, jnp.ndarray) else None, grads))
-                ret = tree_j2t(grads)
-                return ret
+                return tree_j2t(grads)
 
         sig = signature(fn)
         bound = sig.bind(*args, **kwargs)
