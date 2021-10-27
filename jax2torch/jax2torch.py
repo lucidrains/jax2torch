@@ -16,7 +16,7 @@ def j2t(x_jax):
     return x_torch
 
 def t2j(x_torch):
-    x_torch = x_torch.contiguous()
+    x_torch = x_torch.contiguous() # https://github.com/google/jax/issues/8082
     x_jax = jax_dlpack.from_dlpack(torch_dlpack.to_dlpack(x_torch))
     return x_jax
 
