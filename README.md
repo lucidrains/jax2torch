@@ -8,6 +8,15 @@ Use Jax functions in Pytorch with DLPack, as outlined <a href="https://gist.gith
 $ pip install jax2torch
 ```
 
+## Memory management
+
+By default, Jax pre-allocates 90% of VRAM, which leaves Pytorch with very little left over.  To prevent this behavior, set the `XLA_PYTHON_CLIENT_PREALLOCATE` environmental variable to false before running any Jax code:
+
+```python
+import os
+os.environ["XLA_PYTHON_CLIENT_PREALLOCATE"] = "false"
+```
+
 ## Usage
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1GBEEnpuCvLS1bhb_xGCO5Y40rFiQrh6G?usp=sharing) Quick test
@@ -16,6 +25,9 @@ $ pip install jax2torch
 import jax
 import torch
 from jax2torch import jax2torch
+import os
+
+os.environ["XLA_PYTHON_CLIENT_PREALLOCATE"] = "false"
 
 # Jax function
 
