@@ -10,7 +10,12 @@ $ pip install jax2torch
 
 ## Memory management
 
-By default, Jax pre-allocates 90% of VRAM, which leaves Pytorch with very little left over.  To prevent this behavior, set XLA_PYTHON_CLIENT_PREALLOCATE to False before running any Jax code, such as by `os.environ["XLA_PYTHON_CLIENT_PREALLOCATE"] = "false"`.
+By default, Jax pre-allocates 90% of VRAM, which leaves Pytorch with very little left over.  To prevent this behavior, set the `XLA_PYTHON_CLIENT_PREALLOCATE` environmental variable to False before running any Jax code:
+
+```python
+import os
+os.environ["XLA_PYTHON_CLIENT_PREALLOCATE"] = "false"
+```
 
 ## Usage
 
